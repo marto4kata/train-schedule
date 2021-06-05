@@ -1,8 +1,15 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import App from './App';
+import * as scheduleApi from './api/schedule';
 
-test('renders learn react link', () => {
+test('getDepartureSchedule called every 10 seconds', () => {
+  const getScheduleSpy = jest.spyOn(scheduleApi, 'getDepartureSchedule');
+  jest.useFakeTimers();
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+
+  expect(getScheduleSpy).toHaveBeenCalledTimes(1);
+
+  jest.advanceTimersByTime(35000);
+
+  expect(getScheduleSpy).toHaveBeenCalledTimes(4);
+})

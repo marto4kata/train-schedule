@@ -1,4 +1,4 @@
-import { formatTime, getMinutesDiff } from "../utils/date";
+import { formatTime, getMinutesDiff } from '../utils/date';
 
 function getDestination(route, directionId) {
   return route?.attributes?.direction_destinations?.[directionId];
@@ -14,8 +14,8 @@ function getStatus(status, predictedTime, scheduledTime) {
 
 function serializeSchedule({ data = [], included = []}, limit) {
   return data
-    .filter(prediction => prediction.attributes?.departure_time)
-    .filter(prediction => getMinutesDiff(prediction.attributes?.departure_time) > -1)
+    .filter(prediction => prediction.attributes?.departure_time)      // get only departures
+    .filter(prediction => getMinutesDiff(prediction.attributes?.departure_time) > -1) // filter the ones already departure
     .map(({ id, attributes, relationships }) => {
       const { departure_time, direction_id, status } = attributes || {};
 

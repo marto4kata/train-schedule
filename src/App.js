@@ -1,8 +1,8 @@
-import './App.css';
+import { useEffect, useState } from 'react';
 import ScheduleTable from '../src/components/ScheduleTable';
 import { getDepartureSchedule } from './api/schedule';
-import { useEffect, useState } from "react";
-import { getDate, getWeekday, formatTime } from "./utils/date";
+import { getDate, getWeekday, formatTime } from './utils/date';
+import './App.css';
 
 function App() {
   const [schedule, setSchedule] = useState([]);
@@ -21,10 +21,10 @@ function App() {
   }, [])
 
   useEffect(() => {
-    getDepartureSchedule("place-north").then(data => setSchedule(data));
+    getDepartureSchedule('place-north').then(data => setSchedule(data));
 
     const interval = setInterval(() => {
-      getDepartureSchedule("place-north").then(data => setSchedule(data))
+      getDepartureSchedule('place-north').then(data => setSchedule(data))
     }, 10000);
 
     return () => clearInterval(interval);
