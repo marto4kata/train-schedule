@@ -1,5 +1,5 @@
 import './App.css';
-import ScheduleTable from '../src/components/TrainTable';
+import ScheduleTable from '../src/components/ScheduleTable';
 import { getDepartureSchedule } from './api/schedule';
 import { useEffect, useState } from "react";
 import { getDate, getWeekday, formatTime } from "./utils/date";
