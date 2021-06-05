@@ -1,25 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
+import ScheduleTable from '../src/components/TrainTable';
+import { getDepartureSchedule } from './api/schedule';
+import { useEffect, useState } from "react";
+import { getDate, getWeekday, formatTime } from "./utils/date";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [schedule, setSchedule] = useState([]);
+  const [date, setDate] = useState(getDate());
+  const [weekday, setWeekday] = useState(getWeekday());
+  const [time, setTime] = useState(formatTime());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDate(getDate());
+      setWeekday(getWeekday());
+      setTime(formatTime())
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [])
+
+  useEffect(() => {
+    getDepartureSchedule("place-north").then(data => setSchedule(data));
+
+    const interval = setInterval(() => {
+      getDepartureSchedule("place-north").then(data => setSchedule(data))
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [])
+
+  return <ScheduleTable data={schedule} weekday={weekday} date={date} time={time}/>;
 }
 
 export default App;
