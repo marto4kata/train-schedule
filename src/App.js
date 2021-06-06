@@ -1,36 +1,33 @@
 import { useEffect, useState } from 'react';
-import ScheduleTable from '../src/components/ScheduleTable';
+import { TrainTable } from './components/TrainTable';
+import { StationInfo } from './components/StationInfo';
 import { getDepartureSchedule } from './api/schedule';
-import { getDate, getWeekday, formatTime } from './utils/date';
 import './App.css';
+
+const station = {
+  name: 'North Station',
+  value: 'place-north',
+};
 
 function App() {
   const [schedule, setSchedule] = useState([]);
-  const [date, setDate] = useState(getDate());
-  const [weekday, setWeekday] = useState(getWeekday());
-  const [time, setTime] = useState(formatTime());
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setDate(getDate());
-      setWeekday(getWeekday());
-      setTime(formatTime())
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [])
-
-  useEffect(() => {
-    getDepartureSchedule('place-north').then(data => setSchedule(data));
+    getDepartureSchedule(station.value).then(data => setSchedule(data));
 
     const interval = setInterval(() => {
-      getDepartureSchedule('place-north').then(data => setSchedule(data))
+      getDepartureSchedule(station.value).then(data => setSchedule(data))
     }, 10000);
 
     return () => clearInterval(interval);
   }, [])
 
-  return <ScheduleTable data={schedule} weekday={weekday} date={date} time={time}/>;
+  return (
+    <>
+      <StationInfo stationName={station.name}/>
+      <TrainTable data={schedule}/>
+    </>
+  )
 }
 
 export default App;

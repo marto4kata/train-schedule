@@ -1,5 +1,8 @@
-table {
+body {
     font-family: arial, sans-serif;
+}
+
+table {
     border-collapse: collapse;
     width: 100%;
 }
@@ -20,6 +23,18 @@ tr:nth-child(even) {
 }
 
 .header {
+    color: white;
+    background-color: #555555;
     display: flex;
     justify-content: space-around;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.0;
+    }
+}
+
+.separator {
+    animation: blink 1s step-start 0s infinite;
 }
